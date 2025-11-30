@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone RAG Chatbot</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom UI Style -->
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { overflow: hidden; font-family: 'Segoe UI', sans-serif; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        .dot-bounce { animation: bounce 1.4s infinite ease-in-out; }
+        .dot-bounce:nth-child(1) { animation-delay: -0.32s; }
+        .dot-bounce:nth-child(2) { animation-delay: -0.16s; }
+
+        /* Scrollbar */
+        #messagesList::-webkit-scrollbar { width: 8px; }
+        #messagesList::-webkit-scrollbar-thumb {
+            background: rgba(168, 85, 247, 0.6);
+            border-radius: 10px;
+        }
+        #messagesList::-webkit-scrollbar-thumb:hover {
+            background: rgba(168, 85, 247, 0.85);
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-slate-900 via-purple-900 to-black">
+<div class="flex flex-col h-screen">
+
+    <!-- Header -->
+    <header class="bg-black/30 backdrop-blur-lg border-b border-purple-500/20 p-4">
+        <div class="max-w-4xl mx-auto flex items-center gap-3">
+            <div class="bg-gradient-to-br from-purple-500 to-pink-500 p-2 rounded-xl shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white"
+                     fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <rect x="5" y="2" width="14" height="20" rx="2"/>
+                    <line x1="12" y1="18" x2="12.01" y2="18"/>
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-white">iPhone RAG Chatbot</h1>
+                <p class="text-sm text-purple-300">Tư vấn mua iPhone bằng AI RAG</p>
+            </div>
+
+            <div id="statusIndicator" class="ml-auto flex items-center gap-2">
+                <div class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                <span class="text-xs text-yellow-300">Đang kiểm tra server...</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Messages -->
+    <main class="flex-1 overflow-hidden">
+        <div id="messagesList" class="h-full overflow-y-auto p-4">
+            <div id="messagesContainer" class="max-w-4xl mx-auto space-y-4"></div>
+        </div>
+    </main>
+
+    <!-- Suggested Questions -->
+    <section id="suggestions" class="px-4 pb-3 mt-2">
+        <div class="max-w-4xl mx-auto">
+            <p class="text-sm text-purple-300 mb-2">💡 Gợi ý câu hỏi:</p>
+            <div class="flex flex-wrap gap-2">
+                <button onclick="useSuggestion('iPhone nào pin trâu nhất?')" class="suggest-btn">iPhone nào pin trâu nhất?</button>
+                <button onclick="useSuggestion('So sánh iPhone 15 Pro và 15 Pro Max')" class="suggest-btn">So sánh iPhone 15 Pro và Pro Max</button>
+                <button onclick="useSuggestion('iPhone giá rẻ nhất là gì?')" class="suggest-btn">iPhone giá rẻ nhất?</button>
+                <button onclick="useSuggestion('Tư vấn iPhone cho sinh viên')" class="suggest-btn">Tư vấn cho sinh viên</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Input Area -->
+    <footer class="bg-black/30 backdrop-blur-lg border-t border-purple-500/20 p-4">
+        <div class="max-w-4xl mx-auto flex gap-2">
+            <input id="messageInput" placeholder="Nhập câu hỏi..."
+                   class="flex-1 bg-white/10 border border-purple-500/30 rounded-xl px-4 py-3 text-white placeholder-purple-300
+                          focus:outline-none focus:ring-2 focus:ring-purple-500"
+                   onkeypress="handleKeyPress(event)"
+            >
+            <button id="sendBtn" onclick="sendMessage()"
+                    class="send-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4"
+                     fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9"></polygon>
+                </svg>
+                Gửi
+            </button>
+        </div>
+    </footer>
+</div>
+
+<!-- Extra CSS for buttons -->
+<style>
+    .suggest-btn {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(168, 85, 247, 0.4);
+        color: #d8b4fe;
+        padding: 6px 12px;
+        border-radius: 10px;
+        font-size: 0.85rem;
+        transition: 0.2s;
+        backdrop-filter: blur(6px);
+    }
+    .suggest-btn:hover {
+        background: rgba(255,255,255,0.12);
+        transform: scale(1.05);
+    }
+    .send-btn {
+        background: linear-gradient(to right, #9333ea, #ec4899);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 12px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: 0.2s;
+    }
+    .send-btn:hover {
+        filter: brightness(1.15);
+    }
+</style>
+
+<script>
+    const API_URL = 'http://localhost:8000';
+    let isLoading = false;
+    let messageCount = 0;
+
+    // ------------------------------------------------------
+    //  CHECK BACKEND CONNECTION
+    // ------------------------------------------------------
+    async function checkBackendConnection() {
+        try {
+            const res = await fetch(API_URL + '/');
+            if (!res.ok) throw new Error();
+            const data = await res.json();
+            updateStatus("online", `Kết nối • ${data.products_loaded} SP`);
+            return true;
+        } catch {
+            updateStatus("offline", "Backend không kết nối");
+            return false;
+        }
+    }
+
+    function updateStatus(status, text) {
+        const el = document.getElementById("statusIndicator");
+        el.innerHTML = status === "online"
+            ? `<div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+               <span class="text-xs text-green-400">${text}</span>`
+            : `<div class="w-2 h-2 bg-red-500 rounded-full"></div>
+               <span class="text-xs text-red-400">${text}</span>`;
+    }
+
+    // ------------------------------------------------------
+    //  MESSAGE FUNCTIONS
+    // ------------------------------------------------------
+    function addMessage(type, text, products = null) {
+        const container = document.getElementById("messagesContainer");
+        const time = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+
+let productHTML = "";
+if (products?.length) {
+    productHTML = `
+        <div class="mt-3 space-y-2">
+            <p class="text-sm text-purple-300 font-semibold">📱 Sản phẩm liên quan:</p>
+            ${products.slice(0, 2).map(p => {
+                // Convert FAISS distance → match %
+                const match = p.distance !== undefined 
+                    ? Math.max(0, (100 - p.distance * 10)).toFixed(0)
+                    : "–";
+
+                return `
+                    <div class="bg-black/30 border border-purple-500/30 p-3 rounded-lg">
+                        <h4 class="text-white font-semibold">${p.name}</h4>
+                        <p class="text-sm text-purple-300">${p['giá'] ? "💰 " + p['giá'] : ""}</p>
+                        <p class="text-xs text-gray-400">Độ phù hợp: ${match}%</p>
+                    </div>
+                `;
+            }).join("")}
+        </div>`;
+}
+
+
+        const html = `
+            <div class="flex gap-3 ${type === "user" ? "justify-end" : ""}">
+                ${type === "bot" ? botAvatar() : ""}
+                <div class="max-w-2xl ${type === "user" ? userBubbleClass() : botBubbleClass()}">
+                    <p class="text-white whitespace-pre-wrap">${text}</p>
+                    ${productHTML}
+                    <p class="text-xs text-gray-400 mt-2">${time}</p>
+                </div>
+                ${type === "user" ? userAvatar() : ""}
+            </div>`;
+
+        container.insertAdjacentHTML("beforeend", html);
+        scrollToBottom();
+    }
+
+    function botAvatar() {
+        return `
+        <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="10" rx="2"/>
+                <circle cx="12" cy="5" r="2"/>
+                <path d="M12 7v4"/>
+            </svg>
+        </div>`;
+    }
+
+    function userAvatar() {
+        return `
+        <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="7" r="4"/>
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            </svg>
+        </div>`;
+    }
+
+    function userBubbleClass() {
+        return "bg-gradient-to-r from-blue-600 to-blue-500 rounded-2xl p-4 shadow-lg";
+    }
+
+    function botBubbleClass() {
+        return "bg-white/10 backdrop-blur-lg rounded-2xl p-4 shadow-lg";
+    }
+
+    function scrollToBottom() {
+        const list = document.getElementById("messagesList");
+        list.scrollTop = list.scrollHeight;
+    }
+
+    // ------------------------------------------------------
+    //  LOADING
+    // ------------------------------------------------------
+    function showLoading() {
+        const html = `
+            <div id="loading" class="flex gap-3 mt-2">
+                ${botAvatar()}
+                <div class="bg-white/10 p-4 rounded-2xl">
+                    <div class="flex gap-2">
+                        <div class="dot-bounce w-2 h-2 bg-purple-400 rounded-full"></div>
+                        <div class="dot-bounce w-2 h-2 bg-purple-400 rounded-full"></div>
+                        <div class="dot-bounce w-2 h-2 bg-purple-400 rounded-full"></div>
+                    </div>
+                </div>
+            </div>`;
+        document.getElementById("messagesContainer").insertAdjacentHTML("beforeend", html);
+        scrollToBottom();
+    }
+
+    function hideLoading() {
+        const elem = document.getElementById("loading");
+        if (elem) elem.remove();
+    }
+
+    // ------------------------------------------------------
+    //  SEND MESSAGE
+    // ------------------------------------------------------
+    async function sendMessage() {
+        if (isLoading) return;
+
+        const input = document.getElementById("messageInput");
+        const msg = input.value.trim();
+
+        if (!msg) return alert("Vui lòng nhập câu hỏi!");
+
+        isLoading = true;
+        input.value = "";
+        addMessage("user", msg);
+        showLoading();
+        updateStatus("loading", "Đang xử lý...");
+
+        try {
+            const res = await fetch(API_URL + "/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: msg })
+            });
+
+            if (!res.ok) throw new Error("Lỗi HTTP " + res.status);
+
+            const data = await res.json();
+            hideLoading();
+            addMessage("bot", data.response, data.relevant_products);
+
+            updateStatus("online", "Sẵn sàng");
+        } catch (err) {
+            hideLoading();
+            addMessage("bot", `❌ Lỗi kết nối: ${err.message}`);
+            updateStatus("offline", "Lỗi kết nối");
+        }
+
+        isLoading = false;
+    }
+
+    function handleKeyPress(e) {
+        if (e.key === "Enter") sendMessage();
+    }
+
+    function useSuggestion(text) {
+        document.getElementById("messageInput").value = text;
+    }
+
+    // ------------------------------------------------------
+    //  INIT
+    // ------------------------------------------------------
+    window.onload = async () => {
+        const ok = await checkBackendConnection();
+        addMessage("bot", ok
+            ? "Xin chào 👋! Tôi là trợ lý tư vấn iPhone. Bạn muốn hỏi gì hôm nay? 😊"
+            : "⚠️ Không kết nối được server!\nHãy chạy: python backend.py");
+    };
+</script>
+
+</body>
+</html>

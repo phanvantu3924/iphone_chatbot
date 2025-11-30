@@ -1,0 +1,18 @@
+# Python venv
+venv/
+.env
+
+# LLM + Embedding model
+models/
+*.pt
+*.bin
+*.safetensors
+
+# FAISS
+*.index
+*.faiss
+
+# Cache
+__pycache__/
+.cache/
+*.log

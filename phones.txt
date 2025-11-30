@@ -1,0 +1,195 @@
+iPhone 17 Pro Max
+
+Giá: 38.990.000 VNĐ
+Màn hình: 6.7 inch, ProMotion 120Hz, LTPO OLED
+Chip: A19 Pro
+Camera: 48MP Main, 48MP Periscope (10x zoom), 12MP Ultra Wide
+Pin: 4700 mAh, 30W sạc nhanh
+RAM: 8GB, Bộ nhớ: 256GB/512GB/1TB
+Tính năng: USB-C, Always-On Display, AI Camera, Action Button thế hệ mới
+Phù hợp: Người dùng cao cấp, quay phim, chơi game nặng
+
+iPhone 17 Pro
+
+Giá: 33.990.000 VNĐ
+Màn hình: 6.1 inch, ProMotion 120Hz
+Chip: A19 Pro
+Camera: 48MP Main, 12MP Ultra Wide, 12MP Tele (5x zoom)
+Pin: 3800 mAh, sạc nhanh 30W
+RAM: 8GB, Bộ nhớ: 128GB/256GB/512GB
+Tính năng: USB-C, AI Camera, Action Button
+Phù hợp: Người thích máy nhỏ nhưng mạnh nhất
+
+iPhone 17
+
+Giá: 24.990.000 VNĐ
+Màn hình: 6.1 inch, Super Retina XDR 60Hz
+Chip: A18
+Camera: 48MP Main, 12MP Ultra Wide
+Pin: 3600 mAh
+RAM: 6GB, Bộ nhớ: 128GB/256GB
+Tính năng: USB-C, Dynamic Island
+Phù hợp: Người dùng phổ thông muốn hiệu năng mạnh
+
+iPhone 17 Plus
+
+Giá: 27.990.000 VNĐ
+Màn hình: 6.7 inch, Super Retina XDR 60Hz
+Chip: A18
+Camera: 48MP Main, 12MP Ultra Wide
+Pin: 4500 mAh
+RAM: 6GB, Bộ nhớ: 128GB/256GB/512GB
+Tính năng: Dynamic Island
+Phù hợp: Người thích màn hình lớn & pin tốt
+
+iPhone 16 Pro Max
+
+Giá: 35.990.000 VNĐ
+Màn hình: 6.9 inch, 120Hz
+Chip: A18 Pro
+Camera: 48MP Main, 48MP Telephoto (6x), 12MP Ultra Wide
+Pin: 4600 mAh
+Tính năng: USB-C, Action Button
+Phù hợp: Gaming, quay phim 4K
+
+iPhone 16 Pro
+
+Giá: 31.990.000 VNĐ
+Màn hình: 6.3 inch 120Hz
+Chip: A18 Pro
+Camera: 48MP + 12MP + 12MP
+Pin: 3600 mAh
+Phù hợp: Máy nhỏ nhưng cấu hình mạnh
+
+iPhone 16
+
+Giá: 23.990.000 VNĐ
+Màn hình: 6.1 inch
+Chip: A17
+Camera: 48MP
+Pin: 3600 mAh
+
+iPhone 16 Plus
+
+Giá: 26.990.000 VNĐ
+Màn hình: 6.7 inch
+Chip: A17
+Camera: 48MP
+Pin: 4500 mAh
+
+iPhone 15 Pro Max
+
+Giá: 29.990.000 VNĐ
+Màn hình: 6.7 inch 120Hz ProMotion
+Chip: A17 Pro
+Camera: 48MP Main, 12MP Ultra Wide, 12MP Tele (5x zoom)
+Pin: 4422 mAh
+RAM: 8GB, Bộ nhớ: 256GB–1TB
+Tính năng: Titanium, USB-C, Dynamic Island
+Phù hợp: Người dùng cao cấp, quay phim, chơi game
+
+iPhone 15 Pro
+
+Giá: 25.990.000 VNĐ
+Màn hình: 6.1 inch 120Hz
+Chip: A17 Pro
+Camera: 48MP + 12MP + 12MP (3x)
+Pin: 3274 mAh
+RAM: 8GB
+Phù hợp: Người thích máy gọn
+
+iPhone 15
+
+Giá: 19.990.000 VNĐ
+Màn hình: 6.1 inch 60Hz
+Chip: A16
+Camera: 48MP + 12MP
+Pin: 3349 mAh
+Phù hợp: Người dùng phổ thông
+
+iPhone 15 Plus
+
+Giá: 22.990.000 VNĐ
+Màn hình: 6.7 inch 60Hz
+Chip: A16
+Pin: 4383 mAh
+Phù hợp: Người thích pin trâu + màn lớn
+
+iPhone 14 Pro Max
+
+Giá: 24.990.000 VNĐ
+Màn hình: 6.7 inch, 120Hz
+Chip: A16
+Camera: 48MP
+Pin: 4323 mAh
+Tính năng: Dynamic Island
+
+iPhone 14
+
+Giá: 16.990.000 VNĐ
+Màn hình: 6.1 inch 60Hz
+Chip: A15
+Camera: 12MP
+Pin: 3279 mAh
+Phù hợp: Nhu cầu cơ bản
+
+iPhone 13
+
+Giá: 13.990.000 VNĐ
+Màn hình: 6.1 inch
+Chip: A15 (4-core GPU)
+Camera: 12MP
+Pin: 3240 mAh
+Phù hợp: Sinh viên, ngân sách thấp
+
+iPhone SE 2022
+
+Giá: 10.990.000 VNĐ
+Màn hình: 4.7 inch
+Chip: A15
+Pin: 2018 mAh
+Camera: 12MP
+Tính năng: Touch ID
+Phù hợp: Người thích máy nhỏ
+
+iPhone 12
+
+Giá: 11.990.000 VNĐ
+Màn hình: 6.1 inch OLED
+Chip: A14
+Camera: 12MP Dual
+Pin: 2815 mAh
+
+iPhone 12 Mini
+
+Giá: 9.990.000 VNĐ
+Màn hình: 5.4 inch
+Pin: 2227 mAh
+Phù hợp: Người thích máy siêu nhỏ
+
+iPhone 11
+
+Giá: 9.490.000 VNĐ
+Chip: A13
+Camera: 12MP Dual
+Pin: 3110 mAh
+Phù hợp: Giá rẻ – ổn định
+
+iPhone X
+
+Giá: 6.990.000 VNĐ
+Màn hình: 5.8 inch OLED
+Chip: A11
+Camera: 12MP Dual
+Pin: 2716 mAh
+Tính năng: Face ID đời đầu
+Phù hợp: Người muốn iPhone rẻ nhưng có Face ID
+
+iPhone XR
+
+Giá: 7.990.000 VNĐ
+Chip: A12
+Màn hình: 6.1 inch LCD
+Pin: 2942 mAh
+Camera: 12MP
+Phù hợp: Giá rẻ – pin ổn
